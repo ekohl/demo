@@ -33,7 +33,7 @@
 	{% for record in domain.dnsrecord_set.all %}
 	<tr>
 		<td>{{ record }}</td>
-		<td>{{ record.type }}</td>
+		<td><abbr title="{{ record.get_type_display }}">{{ record.type }}</abbr></td>
 		<td>{% if record.ttl %}{{ record.ttl }}{% endif %}</td>
 		<td>{{ record.data }}</td>
 	</tr>
