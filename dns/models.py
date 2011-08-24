@@ -19,10 +19,13 @@ class DnsRecord(models.Model):
     )
 
     domain = models.ForeignKey(Domain)
-    name = models.CharField(max_length=63)
+    name = models.CharField(max_length=63, blank=True)
     type = models.CharField(max_length=5, choices=RR_TYPES)
     ttl = models.PositiveIntegerField(blank=True)
     data = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return ".".join((name, domain))
+        if self.name:
+            return ".".join([self.name, self.domain.name])
+        else:
+            return self.domain.name
