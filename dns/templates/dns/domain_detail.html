@@ -9,6 +9,19 @@
 	<dd>{{ domain.ttl }}</dd>
 </dl>
 
+<h2>Handles</h2>
+{% for domainhandle in domain.domainhandle_set.all %}
+<div class="handle">
+	<h3>{{ domainhandle.get_type_display }}: {{ domainhandle.handle }}</h3>
+	<dl>
+		{% for handledata in domainhandle.handle.handledata_set.all %}
+		<dt>{{ handledata.field }}</dt>
+		<dd>{{ handledata.value }}</dd>
+		{% endfor %}
+	</dl>
+</div>
+{% endfor %}
+
 <h2>Records</h2>
 <table>
 	<tr>
