@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} - Domains - {{ domain }}{% endblock %}
+
+{% block content %}
+<h1>{{ domain }}</h1>
+<dl>
+	<dt>TTL</dt>
+	<dd>{{ domain.ttl }}</dd>
+</dl>
+
+<h2>Records</h2>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Type</th>
+		<th>TTL</th>
+		<th>Value</th>
+	</tr>
+	{% for record in domain.dnsrecord_set.all %}
+	<tr>
+		<td>{{ record }}</td>
+		<td>{{ record.type }}</td>
+		<td>{% if record.ttl %}{{ record.ttl }}{% endif %}</td>
+		<td>{{ record.data }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

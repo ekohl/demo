@@ -4,6 +4,10 @@ class Domain(models.Model):
     name = models.CharField(max_length=63, primary_key=True)
     ttl = models.PositiveIntegerField(default=14400)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('domain_detail', [self.pk])
+
     def __unicode__(self):
         return self.name
 
