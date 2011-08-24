@@ -1,0 +1,11 @@
+$TTL {{ domain.ttl }}
+@               IN      SOA     ns1.oxilion.nl. hostmaster.oxilion.nl. (
+                                1       ; Serial
+                                8H      ; Refresh
+                                2H      ; Retry
+                                4W      ; Expire
+                                1D)     ; Minimum TTL
+localhost		A	127.0.0.1
+{% for record in domain.dnsrecord_set.all %}
+{{ record.name }}	{{ record.type }}	{% if record.ttl %}{{ record.ttl }}{% endif %}	{{ record.data }}
+{% endfor %}

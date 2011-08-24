@@ -4,9 +4,13 @@
 
 {% block content %}
 <h1>Domains</h1>
+<a href="{% url bind_named.zones.conf %}" id="zones" >BIND zones.conf</a>
 <ul>
 {% for domain in object_list %}
-<li><a href="{{ domain.get_absolute_url }}">{{ domain }}</a></li>
+	<li>
+		<a href="{{ domain.get_absolute_url }}">{{ domain }}</a>
+		(<a href="{% url bind_domain.zone domain %}" class="zone">{{ domain }}.zone</a>)
+	</li>
 {% endfor %}
 </ul>
 {% endblock %}
