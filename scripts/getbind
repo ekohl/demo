@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+import BeautifulSoup
+import logging
+import os
+import urllib2
+import urlparse
+
+def main(url, zones_dir='zones'):
+    response = urllib2.urlopen(url)
+    html = response.read()
+    soup = BeautifulSoup.BeautifulSoup(html)
+
+    downloads = [ (a['href'], os.path.join(zones_dir, a.text)) for a in
+            soup.findAll('a', attrs={'class': 'zone'}) ]
+    downloads.append((soup.find('a', attrs={'id': 'zones'})['href'],
+        'zones.conf'))
+
+    parsed_url = urlparse.urlparse(url)
+    base_url = '%s://%s' % (parsed_url.scheme, parsed_url.netloc)
+
+    os.makedirs(zones_dir)
+
+    for source, destination in downloads:
+        url = base_url + source
+
+        logging.info('Opening %s' % url)
+        response = urllib2.urlopen(url)
+
+        with open(destination, 'w+') as f:
+            f.write(response.read())
+            logging.info("Wrote %s" % destination)
+
+if __name__ == '__main__':
+    # Set up logging
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
+    main('http://localhost:8000/dns/domain/')
