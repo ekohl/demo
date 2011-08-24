@@ -4,6 +4,9 @@ class Domain(models.Model):
     name = models.CharField(max_length=63, primary_key=True)
     ttl = models.PositiveIntegerField(default=14400)
 
+    def __unicode__(self):
+        return self.name
+
 class DnsRecord(models.Model):
     RR_TYPES = (
             ('A', 'Host Address'),
@@ -20,3 +23,6 @@ class DnsRecord(models.Model):
     type = models.CharField(max_length=5, choices=RR_TYPES)
     ttl = models.PositiveIntegerField(blank=True)
     data = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return ".".join((name, domain))
